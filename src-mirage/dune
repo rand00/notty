@@ -4,4 +4,4 @@
   (name notty_mirage)
   (wrapped false)
   (optional)
-  (libraries notty lwt))
+  (libraries notty lwt cstruct))
