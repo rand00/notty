@@ -1,0 +1,7 @@
+(library
+  (public_name notty.mirage)
+  (synopsis "Notty Lwt+Mirage IO")
+  (name notty_mirage)
+  (wrapped false)
+  (optional)
+  (libraries notty lwt))
