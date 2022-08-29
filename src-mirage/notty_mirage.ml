@@ -119,6 +119,8 @@ module Term (L : TERMINAL_LINK) = struct
       output t >>= fun _ -> L.close t.flow
     else Lwt.return_unit
 
+  let size t = Tmachine.size t.trm
+
 end
 
 module Terminal_link_of_console (C : Mirage_console.S) = struct

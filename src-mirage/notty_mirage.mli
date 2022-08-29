@@ -34,11 +34,11 @@ module Term (F : TERMINAL_LINK) : sig
     with type input  = [ Unescape.event | `Resize of (int * int) ]
      and type output = [ `Image of image | `Cursor of (int * int) option ]
 
-  val init_size : int * int
-  
   val create :
     ?init_size:(int * int) -> ?mouse:bool -> ?bpaste:bool -> ?cap:Notty.Cap.t
     -> F.flow -> (flow, write_error) result Lwt.t
+
+  val size : flow -> int * int
 
 end
 
