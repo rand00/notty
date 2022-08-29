@@ -4,5 +4,4 @@
   (name notty_mirage)
   (wrapped false)
   (optional)
-  (libraries notty lwt cstruct))
-;; mirage-console
+  (libraries notty lwt cstruct mirage-console))
