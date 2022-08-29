@@ -94,14 +94,21 @@ module Term (L : TERMINAL_LINK) = struct
         Unescape.input t.iflt (Cstruct.to_bytes buf) 0 (Cstruct.length buf);
         read t
 
+  let init_size = 80, 24
+  
   (*> goto - correct defaults?*)
-  let create ?(mouse=false) ?(bpaste=false) ?(cap=Cap.ansi) flow =
+  let create
+      ?(init_size=init_size)
+      ?(mouse=false)
+      ?(bpaste=false)
+      ?(cap=Cap.ansi)
+      flow =
     let t = {
         trm  = Tmachine.create ~mouse ~bpaste cap
       ; flow = flow
       ; iflt = Unescape.create ()
     } in
-    set_size t (80, 24);
+    set_size t init_size;
     let open Lwt_result.Infix in
     L.write flow (`Line_edit false) >>= fun () ->
     output t >|= fun () ->
