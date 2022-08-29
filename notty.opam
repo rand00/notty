@@ -19,10 +19,10 @@ depends: [
   "dune" {>= "1.7"}
   "cppo" {build & >= "1.1.0"}
   "uutf" {>= "1.0.0"}
+  "mirage-console"
 ]
 depopts: [
   "lwt"
   "cstruct"
-  "mirage-console"
 ]
 conflicts: [ "lwt" {<"2.5.2"} ]
