@@ -20,5 +20,9 @@ depends: [
   "cppo" {build & >= "1.1.0"}
   "uutf" {>= "1.0.0"}
 ]
-depopts: [ "lwt" ]
+depopts: [
+  "lwt"
+  "cstruct"
+  "mirage-console"
+]
 conflicts: [ "lwt" {<"2.5.2"} ]

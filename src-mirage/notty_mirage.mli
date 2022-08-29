@@ -6,12 +6,14 @@ module type SFLOW = sig
   type output
   type flow
   type error
+  type write_error
 
   val error_message : error -> string
-  val read   : flow -> [`Ok of input | `Eof | `Error of error ] io
-  val write  : flow -> output -> [`Ok of unit | `Eof | `Error of error ] io
-  val writev : flow -> output list -> [`Ok of unit | `Eof | `Error of error ] io
+  val read   : flow -> ([`Input of input | `Eof], error) result io
+  val write  : flow -> output -> (unit, write_error) result io
+  val writev : flow -> output list -> (unit, write_error) result io
   val close  : flow -> unit io
+
 end
 
 module type SFLOW_LWT = SFLOW with type 'a io = 'a Lwt.t
@@ -32,8 +34,9 @@ module Term (F : TERMINAL_LINK) : sig
     with type input  = [ Unescape.event | `Resize of (int * int) ]
      and type output = [ `Image of image | `Cursor of (int * int) option ]
 
-  val create : ?mouse:bool -> ?cap:Notty.Cap.t -> F.flow -> [ `Ok of flow | `Error of error | `Eof ] Lwt.t
+  val create : ?mouse:bool -> ?bpaste:bool -> ?cap:Notty.Cap.t -> F.flow
+    -> (flow, write_error) result Lwt.t
 end
 
-module Terminal_link_of_console (C : V1_LWT.CONSOLE) :
+module Terminal_link_of_console (C : Mirage_console.S) :
   TERMINAL_LINK with type flow = C.t
