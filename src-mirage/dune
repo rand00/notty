@@ -3,5 +3,5 @@
   (synopsis "Notty Lwt+Mirage IO")
   (name notty_mirage)
   (wrapped false)
-  (optional)
+;;  (optional)
   (libraries notty lwt cstruct mirage-console))
