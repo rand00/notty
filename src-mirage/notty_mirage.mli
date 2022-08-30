@@ -28,19 +28,23 @@ module type TERMINAL_LINK = SFLOW_LWT
 
 open Notty
 
-module Term (F : TERMINAL_LINK) : sig
+module type TERM = sig
 
+  type input_flow
+  
   include SFLOW_LWT
     with type input  = [ Unescape.event | `Resize of (int * int) ]
      and type output = [ `Image of image | `Cursor of (int * int) option ]
 
   val create :
     ?init_size:(int * int) -> ?mouse:bool -> ?bpaste:bool -> ?cap:Notty.Cap.t
-    -> F.flow -> (flow, write_error) result Lwt.t
+    -> input_flow -> (flow, write_error) result Lwt.t
 
   val size : flow -> int * int
 
 end
+
+module Term (F : TERMINAL_LINK) : TERM with type input_flow = F.flow
 
 module Terminal_link_of_console (C : Mirage_console.S) :
   TERMINAL_LINK with type flow = C.t

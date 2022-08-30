@@ -41,10 +41,28 @@ module type TERMINAL_LINK = SFLOW_LWT
   with type input  = [ `Data of Cstruct.t | `Resize of (int * int) ]
    and type output = [ `Data of Cstruct.t | `Line_edit of bool ]
 
+module type TERM = sig
+
+  type input_flow
+  
+  include SFLOW_LWT
+    with type input  = [ Unescape.event | `Resize of (int * int) ]
+     and type output = [ `Image of image | `Cursor of (int * int) option ]
+
+  val create :
+    ?init_size:(int * int) -> ?mouse:bool -> ?bpaste:bool -> ?cap:Notty.Cap.t
+    -> input_flow -> (flow, write_error) result Lwt.t
+
+  val size : flow -> int * int
+
+end
+
 module Term (L : TERMINAL_LINK) = struct
 
   type 'a io = 'a Lwt.t
 
+  type input_flow = L.flow
+  
   type flow = {
     flow : L.flow
   ; trm  : Tmachine.t
