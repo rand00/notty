@@ -55,6 +55,8 @@ module type TERM = sig
 
   val size : flow -> int * int
 
+  val set_size : flow -> int * int -> unit
+  
 end
 
 module Term (L : TERMINAL_LINK) = struct
