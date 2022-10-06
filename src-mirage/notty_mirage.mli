@@ -42,6 +42,8 @@ module type TERM = sig
 
   val size : flow -> int * int
 
+  (* val set_size : flow -> int * int -> unit *)
+  
 end
 
 module Term (F : TERMINAL_LINK) : TERM with type input_flow = F.flow
