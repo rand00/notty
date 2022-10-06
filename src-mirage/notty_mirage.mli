@@ -42,7 +42,7 @@ module type TERM = sig
 
   val size : flow -> int * int
 
-  val set_size : flow -> int * int -> unit
+  (* val set_size : flow -> int * int -> unit *)
   
 end
 
